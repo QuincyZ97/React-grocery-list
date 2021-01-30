@@ -1,14 +1,15 @@
 import React from "react"
 import ListItem from "./ListItem"
-//import Container from "../Container"
 
-function List() {
-        const ListItems = this.state.groceryItems.map(item =>
-            <ListItem
-                title={item.title}
-                key={item.id}
-            />)
-        
+function List(props) {
+    const ListItems = props.data.map(item =>
+        <ListItem
+            title={item.title}
+            key={item.id}
+            id={item.id}
+            handleChange={props.handleChange}
+        />
+    )
         
         return (
             <div>

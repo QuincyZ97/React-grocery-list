@@ -1,10 +1,10 @@
 import React from "react";
 import List from "./List"
-import Container from '../Container';
 
-function GroceryList() {
+function GroceryList(props) {
+    //console.log(props.data)
     return (
-      <List groceryItems={Container} />
+        <List data={props.data} handleChange={props.handleChange}/>
     );
   }
 

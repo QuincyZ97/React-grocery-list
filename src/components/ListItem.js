@@ -1,8 +1,8 @@
-import React from "react"
+import React from "react";
 
 function ListItem(props) {
     return (
-        <div>
+        <div onClick={() => props.handleChange(props.title, props.id)}>
             <li>{props.title}</li>
             <hr/>
         </div>
