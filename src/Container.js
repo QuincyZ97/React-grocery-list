@@ -13,7 +13,6 @@ class Container extends React.Component {
             { id: 3, title: "Eggs" },
             { id: 4, title: "Bread" },
             { id: 5, title: "Milk" },
-            
             { id: 6, title: "chocolate" },
             { id: 7, title: "gummies" },
             { id: 8, title: "cookies" },
@@ -23,18 +22,39 @@ class Container extends React.Component {
 
             shoppingListItems: []
         }
+        this.handleClickGroceryItem = this.handleClickGroceryItem.bind(this)
+        this.emptyCart = this.emptyCart.bind(this)
+        
     }
 
- handleClickGroceryItem(title, id) {
-     console.log(title, id)
+ handleClickGroceryItem(name, value) {
+
+     const newShoppingItem = { id: value, title: name };
      
-}
+     this.setState(prevState => {
+         //copy old shoppinglist state array
+         const newShoppingState = [...prevState.shoppingListItems];
+         //push new object into array
+         newShoppingState.push(newShoppingItem);
+         // copy old state and add new shopping array
+         const newState = { ...prevState, shoppingListItems: newShoppingState }
+         return newState;
+     })
+     
+    }
+    
+    emptyCart() {
+        this.setState(prevState => {
+            const newState = { ...prevState, shoppingListItems: [] }
+            return newState;
+        })
+    }
 
     render() {
         return (
             <div>
                 <GroceryList data={this.state.groceryItems} handleChange={this.handleClickGroceryItem} />
-                <ShoppingCart data={this.state.shoppingListItems} />
+                <ShoppingCart data={this.state.shoppingListItems} handleChange={this.emptyCart} />
             </div>
         );
     }

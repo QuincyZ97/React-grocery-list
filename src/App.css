@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+li:nth-child(odd) {
+  background: slategrey;
+
+ }

@@ -2,9 +2,12 @@ import React from "react";
 import List from "./List"
 
 function ShoppingCart(props) {
-  //console.log(props.data)
+
   return (
-      <List data={props.data}/>
+    <div>
+    <List data={props.data} />
+      <button onClick={() => props.handleChange()}>Empty Cart</button>
+    </div>
   );
 }
 
