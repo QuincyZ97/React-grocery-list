@@ -22,27 +22,25 @@ class Container extends React.Component {
 
             shoppingListItems: []
         }
-        this.handleClickGroceryItem = this.handleClickGroceryItem.bind(this)
+        this.groceryItemToCart = this.groceryItemToCart.bind(this)
         this.emptyCart = this.emptyCart.bind(this)
-        
+        this.addToGroceryList = this.addToGroceryList.bind(this)
     }
 
- handleClickGroceryItem(name, value) {
-
-     const newShoppingItem = { id: value, title: name };
+    //##########################################################################
+    groceryItemToCart(name, value) {
+        const newShoppingItem = { id: value, title: name };
      
      this.setState(prevState => {
-         //copy old shoppinglist state array
          const newShoppingState = [...prevState.shoppingListItems];
-         //push new object into array
          newShoppingState.push(newShoppingItem);
-         // copy old state and add new shopping array
          const newState = { ...prevState, shoppingListItems: newShoppingState }
          return newState;
      })
      
     }
-    
+
+    //========================================================================
     emptyCart() {
         this.setState(prevState => {
             const newState = { ...prevState, shoppingListItems: [] }
@@ -50,11 +48,34 @@ class Container extends React.Component {
         })
     }
 
+    //========================================================================
+    addToGroceryList(inputGrocery) {
+        const uniqueKey = this.state.groceryItems.length + 1;
+        const newGroceryItem = { id: uniqueKey, title: inputGrocery };
+
+        this.setState(prevState => {
+            const newGroceryState = [...prevState.groceryItems];
+            newGroceryState.push(newGroceryItem);
+            const newState = { ...prevState, groceryItems: newGroceryState }
+            return newState;
+        })
+        console.log("A new items has been added" + newGroceryItem)
+        console.log(this.state.groceryItems)
+    }
+
+    //##########################################################################
     render() {
         return (
             <div>
-                <GroceryList data={this.state.groceryItems} handleChange={this.handleClickGroceryItem} />
-                <ShoppingCart data={this.state.shoppingListItems} handleChange={this.emptyCart} />
+                <GroceryList
+                    data={this.state.groceryItems}
+                    handleChange={this.groceryItemToCart}
+                    AddToList={this.addToGroceryList}
+                />
+                <ShoppingCart
+                    data={this.state.shoppingListItems}
+                    handleChange={this.emptyCart}
+                />
             </div>
         );
     }
