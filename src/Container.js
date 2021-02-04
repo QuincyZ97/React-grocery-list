@@ -7,78 +7,95 @@ class Container extends React.Component {
     constructor() {
         super()
         this.state = {
-            groceryItems: [
-            { id: 1, title: "Cheese" },
-            { id: 2, title: "ham" },
-            { id: 3, title: "Eggs" },
-            { id: 4, title: "Bread" },
-            { id: 5, title: "Milk" },
-            { id: 6, title: "chocolate" },
-            { id: 7, title: "gummies" },
-            { id: 8, title: "cookies" },
-            { id: 9, title: "cake" },
-            { id: 10, title: "muffins" },
+            groceryItems: [{
+                    id: 1,
+                    title: "Butter",
+                    amount: 1
+                },
+                {
+                    id: 2,
+                    title: "Cheese",
+                    amount: 1
+                },
+                {
+                    id: 3,
+                    title: "Eggs",
+                    amount: 12
+                },
             ],
 
-            shoppingListItems: []
+            shoppingListItems: [{
+                id: 2,
+                title: "Cheese",
+                amount: 1
+            }]
         }
         this.groceryItemToCart = this.groceryItemToCart.bind(this)
         this.emptyCart = this.emptyCart.bind(this)
         this.addToGroceryList = this.addToGroceryList.bind(this)
+        this.updateAmount = this.updateAmount.bind(this)
     }
 
     //##########################################################################
-    groceryItemToCart(name, value) {
-        const newShoppingItem = { id: value, title: name };
-     
-     this.setState(prevState => {
-         const newShoppingState = [...prevState.shoppingListItems];
-         newShoppingState.push(newShoppingItem);
-         const newState = { ...prevState, shoppingListItems: newShoppingState }
-         return newState;
-     })
-     
+    updateAmount(id) {
+        console.log("Duplicate item found", id);
+        // Get object from given id
+        // copy prev state
+        // amount++ & return new state
     }
+    //========================================================================
+    groceryItemToCart(name, value, quantity) {
+        const newShoppingItem = {
+            id: value,
+            title: name,
+            amount: quantity
+        };
 
+        if (this.state.shoppingListItems.some(obj => obj.id === newShoppingItem.id)) {
+            this.updateAmount(value)
+        } else {
+            this.setState({
+                shoppingListItems: [...this.state.shoppingListItems].concat(newShoppingItem)
+            })
+        };
+    }
     //========================================================================
     emptyCart() {
-        this.setState(prevState => {
-            const newState = { ...prevState, shoppingListItems: [] }
-            return newState;
+        this.setState({
+            ...this.state, //copy?
+            shoppingListItems: [] // does not require copy?
         })
-    }
-
+    };
     //========================================================================
     addToGroceryList(inputGrocery) {
         const uniqueKey = this.state.groceryItems.length + 1;
-        const newGroceryItem = { id: uniqueKey, title: inputGrocery };
-
-        this.setState(prevState => {
-            const newGroceryState = [...prevState.groceryItems];
-            newGroceryState.push(newGroceryItem);
-            const newState = { ...prevState, groceryItems: newGroceryState }
-            return newState;
+        const newGroceryItem = {
+            id: uniqueKey,
+            title: inputGrocery,
+            amount: 1
+        };
+        console.log("A new items has been added")
+        this.setState({
+            groceryItems: [...this.state.groceryItems].concat(newGroceryItem)
         })
-        console.log("A new items has been added" + newGroceryItem)
-        console.log(this.state.groceryItems)
     }
 
     //##########################################################################
     render() {
         return (
             <div>
-                <GroceryList
-                    data={this.state.groceryItems}
-                    handleChange={this.groceryItemToCart}
-                    AddToList={this.addToGroceryList}
-                />
-                <ShoppingCart
-                    data={this.state.shoppingListItems}
-                    handleChange={this.emptyCart}
-                />
+            <GroceryList
+            data={this.state.groceryItems}
+            handleClickGrocery = {this.groceryItemToCart}
+            AddToList={this.addToGroceryList}
+            />
+            <ShoppingCart
+            data={this.state.shoppingListItems}
+            handleClickEmptyCart = {this.emptyCart}
+            />
             </div>
         );
     }
 }
-  
+
 export default Container;

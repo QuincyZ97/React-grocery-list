@@ -3,7 +3,6 @@ import List from "./List"
 import InputField from "./InputField"
 
 function GroceryList(props) {
-
   return (
     <div>
       <InputField
@@ -11,7 +10,7 @@ function GroceryList(props) {
       />
       <List
         data={props.data}
-        handleChange={props.handleChange}
+        handleClickGrocery={props.handleClickGrocery}
       />
     </div>
     );
