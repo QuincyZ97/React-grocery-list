@@ -9,7 +9,7 @@ class Container extends React.Component {
         this.state = {
             groceryItems: [{
                     id: 1,
-                    title: "Butter",
+                    title: "Bread",
                     amount: 1
                 },
                 {
@@ -20,13 +20,13 @@ class Container extends React.Component {
                 {
                     id: 3,
                     title: "Eggs",
-                    amount: 12
+                    amount: 1
                 },
             ],
 
             shoppingListItems: [{
-                id: 2,
-                title: "Cheese",
+                id: 1,
+                title: "Bread",
                 amount: 1
             }]
         }
@@ -36,14 +36,27 @@ class Container extends React.Component {
         this.updateAmount = this.updateAmount.bind(this)
     }
 
-    //##########################################################################
+//##############################    FUNCTIONS   #######################################
     updateAmount(id) {
-        console.log("Duplicate item found", id);
-        // Get object from given id
-        // copy prev state
-        // amount++ & return new state
+        this.setState(prevState => {
+            const updateAmount = prevState.shoppingListItems.map(obj => {
+                if (obj.id === id) {
+                    return {
+                        ...obj,
+                        amount: obj.amount + 1
+                    }
+                } return obj
+            }) // end of map
+            return {
+                ...this.state,
+                shoppingListItems: updateAmount
+            }
+            
+            
+        })
     }
-    //========================================================================
+
+//========================================================================
     groceryItemToCart(name, value, quantity) {
         const newShoppingItem = {
             id: value,
@@ -51,36 +64,45 @@ class Container extends React.Component {
             amount: quantity
         };
 
-        if (this.state.shoppingListItems.some(obj => obj.id === newShoppingItem.id)) {
+        if (this.state.shoppingListItems.find(obj => obj.id === value)) {
             this.updateAmount(value)
         } else {
             this.setState({
+                ...this.state,
                 shoppingListItems: [...this.state.shoppingListItems].concat(newShoppingItem)
             })
         };
     }
-    //========================================================================
+
+//========================================================================
     emptyCart() {
         this.setState({
-            ...this.state, //copy?
-            shoppingListItems: [] // does not require copy?
+            ...this.state,
+            shoppingListItems: []
         })
     };
-    //========================================================================
+
+//========================================================================
     addToGroceryList(inputGrocery) {
+        if (inputGrocery === ""){ // check for empty string
+            alert("Item name cannot be empty")
+            return
+        } else{            
         const uniqueKey = this.state.groceryItems.length + 1;
         const newGroceryItem = {
             id: uniqueKey,
             title: inputGrocery,
             amount: 1
         };
-        console.log("A new items has been added")
+        //console.log("A new item has been added:" + inputGrocery)
         this.setState({
+            ...this.state,
             groceryItems: [...this.state.groceryItems].concat(newGroceryItem)
         })
     }
+    }
 
-    //##########################################################################
+//#########################     RENDER    ############################################
     render() {
         return (
             <div>

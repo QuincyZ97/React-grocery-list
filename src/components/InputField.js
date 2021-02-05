@@ -10,14 +10,26 @@ class InputField extends React.Component {
 }
 
     getInputValue(event) {
+        
         this.setState({
-            groceryInput: event.target.value
+            groceryInput: event.target.value.toLowerCase()
         })
-}
+    }
+
+    resetInput(e) { //reset state & input field
+        e.target.reset()
+        this.setState({
+            groceryInput: ""
+        })
+    }
     
     render() { 
     return (
-        <form onSubmit={(e) => {e.preventDefault(); this.props.AddToList(this.state.groceryInput)}} >  
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            this.props.AddToList(this.state.groceryInput);
+            this.resetInput(e)
+        }}> 
             <input
                 type="text"
                 placeholder="Apples"
