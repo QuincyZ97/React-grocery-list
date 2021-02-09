@@ -25,17 +25,23 @@ class InputField extends React.Component {
     
     render() { 
     return (
-        <form onSubmit={(e) => {
+        <form className="input"
+            onSubmit={(e) => {
             e.preventDefault();
             this.props.AddToList(this.state.groceryInput);
             this.resetInput(e)
         }}> 
             <input
+                className="input__field"
                 type="text"
-                placeholder="Apples"
+                placeholder="Enter your grocery here..."
                 onChange={this.getInputValue}
             />            
-            <input type="submit" value="Add to list" />
+            <input
+                className="input__btn"
+                type="submit"
+                value="Add"
+            />
     
     </form>
         )

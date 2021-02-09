@@ -12,23 +12,14 @@ class Container extends React.Component {
                     title: "Bread",
                     amount: 1
                 },
-                {
-                    id: 2,
-                    title: "Cheese",
-                    amount: 1
-                },
-                {
-                    id: 3,
-                    title: "Eggs",
-                    amount: 1
-                },
             ],
 
             shoppingListItems: [{
                 id: 1,
                 title: "Bread",
                 amount: 1
-            }]
+            }
+            ]
         }
         this.groceryItemToCart = this.groceryItemToCart.bind(this)
         this.emptyCart = this.emptyCart.bind(this)
@@ -50,9 +41,7 @@ class Container extends React.Component {
             return {
                 ...this.state,
                 shoppingListItems: updateAmount
-            }
-            
-            
+            }      
         })
     }
 
@@ -85,7 +74,7 @@ class Container extends React.Component {
 //========================================================================
     addToGroceryList(inputGrocery) {
         if (inputGrocery === ""){ // check for empty string
-            alert("Item name cannot be empty")
+            alert("Please enter a valid grocery name")
             return
         } else{            
         const uniqueKey = this.state.groceryItems.length + 1;
@@ -94,7 +83,6 @@ class Container extends React.Component {
             title: inputGrocery,
             amount: 1
         };
-        //console.log("A new item has been added:" + inputGrocery)
         this.setState({
             ...this.state,
             groceryItems: [...this.state.groceryItems].concat(newGroceryItem)
@@ -105,7 +93,9 @@ class Container extends React.Component {
 //#########################     RENDER    ############################################
     render() {
         return (
-            <div>
+            <main>
+                <h1 className="header">My grocery list</h1>
+            <div className="list__display">
             <GroceryList
             data={this.state.groceryItems}
             handleClickGrocery = {this.groceryItemToCart}
@@ -114,8 +104,9 @@ class Container extends React.Component {
             <ShoppingCart
             data={this.state.shoppingListItems}
             handleClickEmptyCart = {this.emptyCart}
-            />
+                    />
             </div>
+            </main>
         );
     }
 }
